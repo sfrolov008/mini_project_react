@@ -45,16 +45,25 @@ const MoviesList = () => {
         }
     }, [dispatch, queryParams, searchState, genreState])
 
-    const next = () => setQueryParams(q => ({
-        query: queryParams.get('query'),
-        with_genres: queryParams.get('with_genres'),
-        page: +queryParams.get('page') + 1
-    }))
-    const prev = () => setQueryParams(query => ({
-        query: queryParams.get('query'),
-        with_genres: queryParams.get('with_genres'),
-        page: +queryParams.get('page') - 1
-    }))
+    const next = () =>{
+        if (searchState){
+            setQueryParams(query =>({query: queryParams.get('query'), page: +queryParams.get('page') + 1}))
+        }else if (genreState){
+            setQueryParams(query =>({with_genres: queryParams.get('with_genres'), page: +queryParams.get('page') + 1}))
+        }else {
+            setQueryParams(query =>({page: +queryParams.get('page') + 1}))
+        }
+    }
+
+    const prev = () =>{
+        if (searchState){
+            setQueryParams(query =>({query: queryParams.get('query'), page: +queryParams.get('page') - 1}))
+        }else if (genreState){
+            setQueryParams(query =>({with_genres: queryParams.get('with_genres'), page: +queryParams.get('page') - 1}))
+        }else {
+            setQueryParams(query =>({page: +queryParams.get('page') - 1}))
+        }
+    }
 
     return (<div className={"df fdc rg30"}>
         <div className={"search_block df aic jcfe"}>
